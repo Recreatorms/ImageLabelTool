@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>img/action_delete_images.png</file>
+        <file>img/action_load_from_system.png</file>
+        <file>img/action_save_images.png</file>
+        <file>img/tool_angle.png</file>
+        <file>img/tool_auto_decrypt.png</file>
+        <file>img/tool_binding.png</file>
+        <file>img/tool_coverings.png</file>
+        <file>img/tool_decrypt.png</file>
+        <file>img/tool_distance.png</file>
+        <file>img/tool_histogram.png</file>
+        <file>img/tool_images.png</file>
+        <file>img/tool_object_search.png</file>
+        <file>img/tool_path.png</file>
+        <file>img/tool_radius.png</file>
+        <file>img/tool_report.png</file>
+        <file>img/tool_square.png</file>
+        <file>img/tool_transperancy.png</file>
+        <file>img/tool_visualizer_instruments.png</file>
+    </qresource>
+</RCC>
