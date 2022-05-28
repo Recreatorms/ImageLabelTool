@@ -212,8 +212,12 @@ void Scene::createZone(const int _index, const QRectF &_rect, const QString &_na
       rect = QRectF(_rect.bottomLeft(), _rect.topRight());
     else
       rect = QRectF(_rect.bottomRight(), _rect.topLeft());
+
   else
-    rect = QRectF(_rect);
+    if (_rect.topLeft().rx() < _rect.bottomRight().rx())
+      rect = QRectF(_rect);
+    else
+      rect = QRectF(_rect.topRight(),_rect.bottomLeft());
 
   object.rect = new QGraphicsRectItem(rect);
   QColor color = Qt::darkGreen;
