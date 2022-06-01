@@ -23,10 +23,10 @@ signals:
     void removeItemFromDialog(QString text);
     void clearDialogList();
 private slots:
+
     void statusBarShowPos();
     void openTextDialog(const QRectF &_rect);
     void closeTextDialog();
-
     void switchConnects();
     void on_actionOpenImage_triggered();
     void on_actionAddObjects_triggered();
@@ -41,11 +41,16 @@ private slots:
     void on_pushButtonEdit_clicked();
     void on_actionSave_triggered();
 
+    void on_actionSettings_triggered();
+
+protected:
+    void closeEvent(QCloseEvent *event);
 private:
     Ui::MainWindow *ui;
     Scene *scene;
     GraphicsViewZoom *zoom;
     Dialog *textDialog;
     int lastIndex = 0;
+
 };
 #endif // MAINWINDOW_H

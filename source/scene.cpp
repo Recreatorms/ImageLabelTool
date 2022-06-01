@@ -220,7 +220,7 @@ void Scene::createZone(const int _index, const QRectF &_rect, const QString &_na
       rect = QRectF(_rect.topRight(),_rect.bottomLeft());
 
   object.rect = new QGraphicsRectItem(rect);
-  QColor color = Qt::darkGreen;
+  QColor color = zoneColor;
   object.rect->setBrush(Qt::NoBrush);
   QPen pen(color);
   pen.setWidthF(scale/5);
@@ -259,8 +259,8 @@ void Scene::editZone(const int _index, const QRectF &rect, const QString &_name,
   QString text = _name + " " + _precision;
   objects[_index].text = new myGraphicsTextItem(text);
   objects[_index].text->setDefaultTextColor(Qt::white);
-  objects[_index].text->setPos(rect.topLeft() - QPointF(0,4*scale));
-  objects[_index].text->setColor(Qt::darkYellow);
+  objects[_index].text->setPos(rect.topLeft() - QPointF(0,scale));
+  objects[_index].text->setColor(highlightColor);
   QFont font("Helvetica", scale*2, 99);
 
   objects[_index].text->setFont(font);
@@ -273,6 +273,7 @@ void Scene::editZone(const int _index, const QRectF &rect, const QString &_name,
 
 void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+
   if (!mouseEnable)
     return;
   if (event->button() == Qt::RightButton) {
@@ -352,6 +353,7 @@ void Scene::setBackgroundImage(QString _filename)
 {
   this->fileName = _filename;
 }
+
 
 void Scene::drawBackground(QPainter *painter, const QRectF &rect)
 {

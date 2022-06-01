@@ -10,6 +10,7 @@ Dialog::Dialog(QWidget *parent) :
   setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint);
   ui->listWidget->setSelectionMode(QAbstractItemView::SingleSelection);
   addDefaultClasses();
+  ui->lineEdit_2->setInputMask("B.900000");
 
 }
 
@@ -19,12 +20,29 @@ Dialog::~Dialog()
 }
 void Dialog::addDefaultClasses()
 {
-  ui->listWidget->addItem("Plane_1");
-  ui->listWidget->addItem("Plane_2");
-  ui->listWidget->addItem("Tank");
-  ui->listWidget->addItem("Cannon");
-  ui->listWidget->addItem("Ship");
+  //  Можно так
+//    QFile file(QFileDialog::getOpenFileName());
+  // или так
+  QFile file("./classes.txt");
+  QTextStream fstream(&file);
+  file.open(QIODevice::ReadOnly);
+  QString text = fstream.readAll();
+  file.close();
+  int i = 0;
+  while(i < text.size()) {
+      QString buff = "";
+      while(i < text.size()  && text[i] != ' ' && text[i] != '\n') { // class
+
+          buff.append(text[i]);
+          i++;
+        }
+      if(buff != "")
+        if (ui->listWidget->findItems(buff, Qt::MatchFlag::MatchExactly).isEmpty())
+          ui->listWidget->addItem(buff);
+      i++;
+    }
 }
+
 void Dialog::addName(const QString &_name)
 {
   if (ui->listWidget->findItems(_name, Qt::MatchFlag::MatchExactly).isEmpty())
@@ -41,21 +59,34 @@ void Dialog::on_buttonCancel_clicked()
 void Dialog::on_buttonOK_clicked()
 {
   QString name = ui->lineEdit->text();
+  if (ui->lineEdit_2->text().toDouble() < 0.0f || ui->lineEdit_2->text().toDouble() > 1.0)
+    return;
+  if (ui->lineEdit_2->text()[0] != '1') {
+      if (ui->lineEdit_2->text()[0] != '0')
+        return;
+    }
+  else
+    ui->lineEdit_2->setText("1.000000");
+  if (ui->lineEdit_2->text().toDouble() == 0)
+    ui->lineEdit_2->setText("0.000000");
   std::string precision = ui->lineEdit_2->text().toStdString();
-  if (name.isEmpty() && precision.empty()) {
-      // QDialog
+  if (name.isEmpty())
+    return;
+  if (precision.empty())
+    return;
 
-      return;
-    }
-  if (!std::any_of(precision.begin(),precision.end(), ::isdigit)) {
-      // QDiagog
-      return;
-    }
   emit textOK(index, rect, name, QString::fromStdString(precision));
   on_buttonCancel_clicked();
-  if (ui->listWidget->findItems(name, Qt::MatchFlag::MatchExactly).isEmpty())
-    ui->listWidget->addItem(name);
-
+  if (ui->listWidget->findItems(name, Qt::MatchFlag::MatchExactly).isEmpty()) {
+      ui->listWidget->addItem(name);
+      QFile file("./classes.txt");
+      QTextStream fstream(&file);
+      if (file.open(QIODevice::WriteOnly | QIODevice::Append)) {
+          fstream << name << '\n';
+          file.flush();
+          file.close();
+        }
+    }
 }
 
 

@@ -4,6 +4,8 @@
 #include <QDialog>
 #include <QListWidgetItem>
 #include <QDebug>
+#include <QFile>
+#include <QFileDialog>
 namespace Ui {
   class Dialog;
 }
@@ -24,13 +26,13 @@ public slots:
   void addName(const QString &_name);
   void removeItemFromList(const QString &_name);
   void clearList();
+  void addDefaultClasses();
 private slots:
   void on_buttonCancel_clicked();
   void on_buttonOK_clicked();
   void on_listWidget_itemClicked(QListWidgetItem *item);
 
 private:
-  void addDefaultClasses();
   Ui::Dialog *ui;
 };
 

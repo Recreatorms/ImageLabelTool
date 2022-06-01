@@ -8,7 +8,7 @@
 #include <QGraphicsLineItem>
 #include <QGraphicsSimpleTextItem>
 #include <QPainter>
-
+#include <QDebug>
 class myGraphicsTextItem : public QGraphicsTextItem
 {
     public:
@@ -84,6 +84,7 @@ private:
 //  indexForDragEllipse;
   QPointF newPoint;
   QString fileName;
+  QColor zoneColor = Qt::darkGreen, highlightColor = Qt::darkYellow;
 };
 
 #endif // SCENE_H

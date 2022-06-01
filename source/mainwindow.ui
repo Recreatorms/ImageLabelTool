@@ -172,6 +172,7 @@
    <addaction name="actionSave"/>
    <addaction name="actionDrawRect"/>
    <addaction name="actionDelete"/>
+   <addaction name="actionSettings"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpenImage">
@@ -232,6 +233,18 @@
    </property>
    <property name="toolTip">
     <string>Удалить все индикации</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="icon">
+    <iconset resource="rsc.qrc">
+     <normaloff>:/img/img/tool_visualizer_instruments.png</normaloff>:/img/img/tool_visualizer_instruments.png</iconset>
+   </property>
+   <property name="text">
+    <string>Settings</string>
+   </property>
+   <property name="toolTip">
+    <string>Открыть настройки</string>
    </property>
   </action>
  </widget>

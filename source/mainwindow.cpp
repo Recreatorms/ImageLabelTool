@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include <QMessageBox>
-#include <QDir>
+
 #include <QPixmap>
 
 
@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
   this->resize(1100,600);
   this->update();
   textDialog = new Dialog();
+
   ui->toolBar->setContextMenuPolicy(Qt::PreventContextMenu);
   connect(scene, &Scene::mousePosChanged, this, &MainWindow::statusBarShowPos);
 
@@ -32,11 +33,11 @@ MainWindow::MainWindow(QWidget *parent)
   connect(this, &MainWindow::clearDialogList, textDialog, &Dialog::clearList);
   connect(scene, &Scene::leftMousePressed, this, &MainWindow::on_pushButtonUnselect_clicked);
   connect(scene, &Scene::zoneCreatedFromFile, textDialog, &Dialog::addName);
-
 }
 
 MainWindow::~MainWindow()
 {
+  delete textDialog;
   delete ui;
 }
 
@@ -70,8 +71,10 @@ void MainWindow::on_actionOpenImage_triggered()
 {
   QString imagePath = QFileDialog::getOpenFileName(this, "Загрузить изображения",
                                                    "D:/Images/", "Изображения (*.png; *.jpg; *.jpeg; *.bmp;);;Все файлы(*)");
-  if(imagePath != "")
+  if(imagePath != "") {
     scene->setBackgroundImage(imagePath);
+    on_actionDelete_triggered();
+    }
 }
 
 void MainWindow::on_actionAddObjects_triggered()
@@ -118,9 +121,10 @@ void MainWindow::on_actionSave_triggered()
     }
   if (filePath.isNull())
     return;
-  fileDialog.setDefaultSuffix("txt");
-  filePath = fileDialog.getSaveFileName(this, "Сохранить объекты", QDir::homePath(), "Текстовый файл (*.txt)");
-  QFile txtFile(filePath);
+//  fileDialog.setDefaultSuffix("txt");
+
+  filePath = filePath.split(".",QString::SkipEmptyParts).at(0);
+  QFile txtFile(filePath+".txt");
   QTextStream fstream(&txtFile);
   txtFile.open(QIODevice::WriteOnly);
   fstream << text;
@@ -199,3 +203,16 @@ void MainWindow::on_pushButtonEdit_clicked()
 
 
 }
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+
+  closeTextDialog();
+}
+
+
+void MainWindow::on_actionSettings_triggered()
+{
+    textDialog->addDefaultClasses();
+}
+
